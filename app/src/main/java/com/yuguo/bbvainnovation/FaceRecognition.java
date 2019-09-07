@@ -40,16 +40,15 @@ public class FaceRecognition extends Activity implements PictureCapturingListene
         handler.sendEmptyMessageDelayed(0, 3000);
 
         Timer timer = new Timer();
-        for (int i = 1; i < 61; i++) {
+        for (int i = 1; i < 4; i++) {
             int finalI = i;
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     TextView textId = findViewById(R.id.animationNum);
-                    textId.setText(((int) ((finalI - 1) / 20 )+ ""));
-                    /*int textSize = (int) ((finalI % 20));
-                    textId.setTextSize(textSize);*/
-
+                    textId.setText((finalI - 1) / 20 + 1 + "");
+                    /*int textSize = (int) ((finalI % 20));*/
+                    textId.setTextSize(TypedValue.COMPLEX_UNIT_DIP,60);
                 }
             }, 50 * i);
 
