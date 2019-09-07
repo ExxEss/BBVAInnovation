@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#072146"
+    android:weightSum="100">
 
 
-    <com.yuguo.bbvainnovation.CustomVideoView
-        android:id="@+id/videoView"
+    <ImageView
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:src="@mipmap/front"
+        android:layout_weight="40"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/animationNum"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="60"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="60dp"/>
+
+</LinearLayout>
+
