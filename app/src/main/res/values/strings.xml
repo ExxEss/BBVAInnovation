@@ -6,4 +6,12 @@
     <string name="nav_header_subtitle">Yuguo Xie</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="miscuentas">Mis Cuentas</string>
+    <string name="op">Oportunidades</string>
+    <string name="tr">Transferir</string>
+    <string name="retiro">Retiro Sin Tarjeta</string>
+    <string name="pagar">Pagar</string>
+    <string name="comprar">Comparar / Contratar</string>
+    <string name="consultar">Consultar</string>
 </resources>
