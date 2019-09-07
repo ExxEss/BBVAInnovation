@@ -47,7 +47,7 @@ public class videoview extends Activity {
                     public void run() {
                         mp.setLooping(false);
                     }
-                }, 6000L); // 300 is the delay in millis
+                }, 2000L); // 300 is the delay in millis
             }
         });
 
