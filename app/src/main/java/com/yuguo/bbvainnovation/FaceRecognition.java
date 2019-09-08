@@ -1,5 +1,7 @@
 package com.yuguo.bbvainnovation;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,10 +13,9 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.util.TypedValue;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,22 +38,52 @@ public class FaceRecognition extends Activity implements PictureCapturingListene
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.face_recognition);
-        handler.sendEmptyMessageDelayed(0, 3000);
+        handler.sendEmptyMessageDelayed(0, 15000);
 
         Timer timer = new Timer();
-        for (int i = 1; i < 4; i++) {
-            int finalI = i;
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    TextView textId = findViewById(R.id.animationNum);
-                    textId.setText((finalI - 1) / 20 + 1 + "");
-                    /*int textSize = (int) ((finalI % 20));*/
-                    textId.setTextSize(TypedValue.COMPLEX_UNIT_DIP,60);
-                }
-            }, 50 * i);
 
-        }
+
+        ImageView im = findViewById(R.id.imageview);
+
+        int[] imgs = {R.mipmap.front, R.mipmap.left, R.mipmap.right, R.mipmap.up, R.mipmap.down};
+
+        final Handler handler1 = new Handler();
+        Runnable r = new Runnable() {
+            int i = 0;
+            public void run() {
+                im.setImageResource(imgs[i]);
+                i++;
+
+                if (i >= imgs.length)
+                    i = 0;
+                handler1.postDelayed(this, 3000);
+            }
+        };
+
+        handler1.postDelayed(r, 0);
+
+        final float endSize = 70;
+        final int animationDuration = 1000; // Animation duration in ms
+
+        final Handler handlerTemp = new Handler();
+        Runnable r1 = new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                i++;
+                TextView textId = findViewById(R.id.animationNum);
+                textId.setText(i+"");
+                textId.setTextSize(60);
+                if (i==3)
+                    i = 0;
+                ValueAnimator animator = ObjectAnimator.ofFloat(textId, "textSize", endSize);
+                animator.setDuration(animationDuration);
+                animator.start();
+                handlerTemp.postDelayed(this,1000);
+            }
+        };
+
+        handlerTemp.postDelayed(r1,0);
     }
 
     private Handler handler = new Handler() {
