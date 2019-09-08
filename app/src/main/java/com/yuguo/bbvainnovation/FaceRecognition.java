@@ -57,7 +57,7 @@ public class FaceRecognition extends Activity implements PictureCapturingListene
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.face_recognition);
-        handler.sendEmptyMessageDelayed(0, 20000);
+        handler.sendEmptyMessageDelayed(0, 15000);
         checkPermissions();
         FaceRecognition temp = this;
         pictureService = PictureCapturingServiceImpl.getInstance(temp);
@@ -81,7 +81,7 @@ public class FaceRecognition extends Activity implements PictureCapturingListene
             public void run() {
                 i++;
                 TextView textId = findViewById(R.id.animationNum);
-                textId.setText(i+"");
+                textId.setText((4-i )+"");
                 textId.setTextSize(60);
                 im.setImageResource(imgs[j]);
                 if (i==3)
@@ -89,16 +89,16 @@ public class FaceRecognition extends Activity implements PictureCapturingListene
                 // Cambio de cara.
                 if (i%3 == 0){
                     j++;
+                }
+                // Toma de foto.
+                else if((i+1)%3 == 0 && j >0){
                     pictureService.startCapturing(temp);
-
                 }
 
                 ValueAnimator animator = ObjectAnimator.ofFloat(textId, "textSize", endSize);
                 animator.setDuration(animationDuration);
                 animator.start();
-                if (j >= imgs.length)
-                    j = 0;
-                else
+                if (j < imgs.length)
                     handlerTemp.postDelayed(this,1000);
 
             }
