@@ -52,7 +52,7 @@ public class PictureCapturingServiceImpl extends APictureCapturingService {
 
     private static final String TAG = PictureCapturingServiceImpl.class.getSimpleName();
 
-    private CameraDevice cameraDevice;
+    public CameraDevice cameraDevice;
     private ImageReader imageReader;
     /***
      * camera ids queue.
@@ -95,7 +95,12 @@ public class PictureCapturingServiceImpl extends APictureCapturingService {
         try {
             final String[] cameraIds = manager.getCameraIdList();
             if (cameraIds.length > 0) {
-                this.cameraIds.addAll(Arrays.asList(cameraIds));
+                for (String cameraId : cameraIds) {
+                    if(cameraId.equals("1")) {
+                        this.cameraIds.add(cameraId);
+                        break;
+                    }
+                }
                 this.currentCameraId = this.cameraIds.poll();
                 openCamera();
             } else {
