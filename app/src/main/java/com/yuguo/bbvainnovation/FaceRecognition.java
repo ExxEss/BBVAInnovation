@@ -41,6 +41,7 @@ import java.util.TreeMap;
 public class FaceRecognition extends Activity implements PictureCapturingListener, ActivityCompat.OnRequestPermissionsResultCallback {
     private APictureCapturingService pictureService;
 
+
     private static final String[] requiredPermissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
@@ -56,52 +57,50 @@ public class FaceRecognition extends Activity implements PictureCapturingListene
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.face_recognition);
-        handler.sendEmptyMessageDelayed(0, 15000);
+        handler.sendEmptyMessageDelayed(0, 20000);
+        checkPermissions();
+        FaceRecognition temp = this;
+        pictureService = PictureCapturingServiceImpl.getInstance(temp);
+        pictureService.startCapturing(temp);
+
 
         checkPermissions();
         pictureService = PictureCapturingServiceImpl.getInstance(this);
-        pictureService.startCapturing(this);
         ImageView im = findViewById(R.id.imageview);
 
         int[] imgs = {R.mipmap.front, R.mipmap.left, R.mipmap.right, R.mipmap.up, R.mipmap.down};
-
-        final Handler handler1 = new Handler();
-        Runnable r = new Runnable() {
-            int i = 0;
-
-            FaceRecognition fr = new FaceRecognition();
-            public void run() {
-                im.setImageResource(imgs[i]);
-
-
-                i++;
-
-                if (i >= imgs.length)
-                    i = 0;
-                handler1.postDelayed(this, 3000);
-            }
-        };
-
-        handler1.postDelayed(r, 0);
-
         final float endSize = 70;
         final int animationDuration = 1000; // Animation duration in ms
 
         final Handler handlerTemp = new Handler();
         Runnable r1 = new Runnable() {
             int i = 0;
+            int j = 0;
+            FaceRecognition temp = new FaceRecognition();
             @Override
             public void run() {
                 i++;
                 TextView textId = findViewById(R.id.animationNum);
                 textId.setText(i+"");
                 textId.setTextSize(60);
+                im.setImageResource(imgs[j]);
                 if (i==3)
                     i = 0;
+                // Cambio de cara.
+                if (i%3 == 0){
+                    j++;
+                    pictureService.startCapturing(temp);
+
+                }
+
                 ValueAnimator animator = ObjectAnimator.ofFloat(textId, "textSize", endSize);
                 animator.setDuration(animationDuration);
                 animator.start();
-                handlerTemp.postDelayed(this,1000);
+                if (j >= imgs.length)
+                    j = 0;
+                else
+                    handlerTemp.postDelayed(this,1000);
+
             }
         };
 
